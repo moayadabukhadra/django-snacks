@@ -1,14 +1,15 @@
+from urllib import request, response
+from django.test import TestCase
+from django.urls import reverse
 
-import unittest
-from django.test import Client
-
-class SimpleTest(unittest.TestCase):
-    def test_details(self):
-        client = Client()
-        response = client.get('/home/')
+class ThingTest(TestCase):
+    def test_list_page_status_code(self):
+        url = reverse("home")
+        response =self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-    def test_index(self):
-        client = Client()
-        response = client.get('/')
-        self.assertEqual(response.status_code, 200)
+    
+    def test_list_page_template(self):
+        url = reverse("about")
+        response =self.client.get(url)
+        self.assertTemplateUsed(response, "about.html")
+        self.assertTemplateUsed(response, "base.html")
